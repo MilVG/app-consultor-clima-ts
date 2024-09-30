@@ -3,7 +3,11 @@ import { SearchType } from "../../types";
 import { dbpaises } from "../../data/dbpaises";
 import styles from "./Form.module.css"
 import Alert from "../Alert/Alert";
-export default function Form() {
+
+type FetchlimaProps = {
+  fetchClima: () => void
+}
+export default function Form({ fetchClima }: FetchlimaProps) {
   const [search, setSearch] = useState<SearchType>({
     ciudad: '',
     pais: ''
@@ -25,6 +29,7 @@ export default function Form() {
       setAlert('Todos los campos son obligatorios')
 
     }
+    fetchClima()
   }
   return (
     <form
