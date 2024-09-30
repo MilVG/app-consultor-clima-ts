@@ -1,20 +1,40 @@
+import { ChangeEvent, useState } from "react";
+import { SearchType } from "../../types";
 import { dbpaises } from "../../data/dbpaises";
 import styles from "./Form.module.css"
 export default function Form() {
+  const [search, setSearch] = useState<SearchType>({
+    ciudad: '',
+    pais: ''
+  })
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+    setSearch({
+      ...search,
+      [e.target.name]: e.target.value
+    })
+  }
   return (
     <form className={styles.form}>
       <div className={styles.field}>
-        <label htmlFor='city'>Ciudad</label>
+        <label htmlFor='ciudad'>Ciudad</label>
         <input
-          id='city'
+          id='ciudad'
           type='text'
-          name='city'
+          name='ciudad'
           placeholder='ciudad'
+          value={search.ciudad}
+          onChange={handleChange}
         />
       </div>
       <div className={styles.field}>
-        <label htmlFor='city'>País</label>
-        <select>
+        <label htmlFor="pais">País</label>
+        <select
+          id="pais"
+          value={search.pais}
+          name="pais"
+          onChange={handleChange}
+        >
           <option value="">--Seleccione un País--</option>
           {
             dbpaises.map(pais => (
