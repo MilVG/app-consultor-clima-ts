@@ -4,7 +4,7 @@ import Form from './components/Form/Form'
 import useClima from './hooks/useClima'
 function App() {
 
-  const { fetchClima, clima } = useClima()
+  const { fetchClima, clima, datosvaciosClima } = useClima()
   return (
     <>
       <h1 className={styles.title}>Buscador de Clima</h1>
@@ -12,9 +12,12 @@ function App() {
         <Form
           fetchClima={fetchClima}
         />
-        <ClimaDetalle
-          clima={clima}
-        />
+        {datosvaciosClima &&
+
+          <ClimaDetalle
+            clima={clima}
+          />
+        }
       </div>
     </>
   )

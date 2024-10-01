@@ -2,7 +2,7 @@ import axios from "axios";
 import { SearchType } from "../types";
 // import { object, number, string, InferOutput, parse } from "valibot";
 import { z } from "zod";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 /* TYPE GUARD O ASSERTION*/
 
 // function isClimaResponse(clima: unknown): clima is Clima {
@@ -102,8 +102,11 @@ export default function useClima() {
     }
   }
 
+  const datosvaciosClima = useMemo(() => clima.name, [clima])
+
   return {
     clima,
-    fetchClima
+    fetchClima,
+    datosvaciosClima
   }
 }
