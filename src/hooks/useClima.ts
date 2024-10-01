@@ -6,10 +6,19 @@ export default function useClima() {
   const fetchClima = async (search: SearchType) => {
     try {
       const appId = import.meta.env.VITE_API_KEY
-      const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${search.pais},${search.pais}&appid=${appId}`
+      const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${search.ciudad},${search.pais}&appid=${appId}`
+
 
       const { data } = await axios(geoUrl)
-      console.log(data);
+
+      const lat = data[0].lat
+      const lon = data[0].lon
+
+      const climaurl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${appId}`
+
+      const { data: ClimaResult } = await axios(climaurl)
+
+      console.log(ClimaResult);
 
 
     } catch (error) {
