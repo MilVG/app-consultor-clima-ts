@@ -42,21 +42,24 @@ export type Clima = z.infer<typeof Clima>
 
 // type Clima = InferOutput<typeof ClimaSchema>
 
+const initialState = {
+  name: '',
+  main: {
+    temp: 0,
+    temp_min: 0,
+    temp_max: 0
+  }
+
+}
 export default function useClima() {
 
-  const [clima, setClima] = useState<Clima>({
-    name: '',
-    main: {
-      temp: 0,
-      temp_min: 0,
-      temp_max: 0
-    }
-  })
+  const [clima, setClima] = useState<Clima>(initialState)
 
   const [loading, setLoading] = useState(false)
 
   const fetchClima = async (search: SearchType) => {
     setLoading(true)
+    setClima(initialState)
     try {
       const appId = import.meta.env.VITE_API_KEY
       const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${search.ciudad},${search.pais}&appid=${appId}`
