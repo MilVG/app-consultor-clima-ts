@@ -1,7 +1,8 @@
 import axios from "axios";
 import { SearchType } from "../types";
-import { object, number, string, InferOutput, parse } from "valibot";
-// import { z } from "zod";
+// import { object, number, string, InferOutput, parse } from "valibot";
+import { z } from "zod";
+import { useState } from "react";
 /* TYPE GUARD O ASSERTION*/
 
 // function isClimaResponse(clima: unknown): clima is Clima {
@@ -17,31 +18,40 @@ import { object, number, string, InferOutput, parse } from "valibot";
 
 /* UTILIZNADO LA LIBRERIA ZOD */
 
-// const Clima = z.object({
-//   name: z.string(),
-//   main: z.object({
-//     temp: z.number(),
-//     temp_min: z.number(),
-//     temp_max: z.number(),
-//   })
-// })
-
-// type Clima = z.infer<typeof Clima>
-
-/*UTILIZANDO METODO DE LIBRERIA VALIBOT*/
-
-const ClimaSchema = object({
-  name: string(),
-  main: object({
-    temp: number(),
-    temp_min: number(),
-    temp_max: number()
+const Clima = z.object({
+  name: z.string(),
+  main: z.object({
+    temp: z.number(),
+    temp_min: z.number(),
+    temp_max: z.number(),
   })
 })
 
-type Clima = InferOutput<typeof ClimaSchema>
+export type Clima = z.infer<typeof Clima>
+
+/*UTILIZANDO METODO DE LIBRERIA VALIBOT*/
+
+// const ClimaSchema = object({
+//   name: string(),
+//   main: object({
+//     temp: number(),
+//     temp_min: number(),
+//     temp_max: number()
+//   })
+// })
+
+// type Clima = InferOutput<typeof ClimaSchema>
 
 export default function useClima() {
+
+  const [clima, setClima] = useState<Clima>({
+    name: '',
+    main: {
+      temp: 0,
+      temp_min: 0,
+      temp_max: 0
+    }
+  })
 
   const fetchClima = async (search: SearchType) => {
     try {
@@ -72,21 +82,18 @@ export default function useClima() {
       // }
 
       /*USANSO LA LIBRERIA ZOD*/
-      // const { data: ClimaResult } = await axios(climaurl)
-      // const result = Clima.safeParse(ClimaResult)
-      // if (result) {
-      //
-      //   console.log(result.data?.name);
-      //   console.log(result.data?.main.temp);
-      //
-      // }
+      const { data: ClimaResult } = await axios(climaurl)
+      const result = Clima.safeParse(ClimaResult)
+      if (result.success) {
+        setClima(result.data)
+      }
 
       /*USANDO LA LIBRERIA VALIBOT*/
-      const { data: ClimaResult } = await axios(climaurl)
-      const result = parse(ClimaSchema, ClimaResult)
-      if (result) {
-        console.log(result.name);
-      }
+      // const { data: ClimaResult } = await axios(climaurl)
+      // const result = parse(ClimaSchema, ClimaResult)
+      // if (result) {
+      //   console.log(result.name);
+      // }
 
 
     } catch (error) {
@@ -96,6 +103,7 @@ export default function useClima() {
   }
 
   return {
+    clima,
     fetchClima
   }
 }
