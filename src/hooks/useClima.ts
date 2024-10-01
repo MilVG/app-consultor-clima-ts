@@ -54,8 +54,8 @@ const initialState = {
 export default function useClima() {
 
   const [clima, setClima] = useState<Clima>(initialState)
-
   const [loading, setLoading] = useState(false)
+  const [notFound, setNotFound] = useState(false)
 
   const fetchClima = async (search: SearchType) => {
     setLoading(true)
@@ -67,6 +67,10 @@ export default function useClima() {
 
       const { data } = await axios(geoUrl)
 
+      if (!data[0]) {
+        setNotFound(true)
+        return
+      }
       const lat = data[0].lat
       const lon = data[0].lon
 
@@ -116,6 +120,7 @@ export default function useClima() {
     clima,
     fetchClima,
     datosvaciosClima,
-    loading
+    loading,
+    notFound
   }
 }
