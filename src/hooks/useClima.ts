@@ -53,7 +53,10 @@ export default function useClima() {
     }
   })
 
+  const [loading, setLoading] = useState(false)
+
   const fetchClima = async (search: SearchType) => {
+    setLoading(true)
     try {
       const appId = import.meta.env.VITE_API_KEY
       const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${search.ciudad},${search.pais}&appid=${appId}`
@@ -99,6 +102,8 @@ export default function useClima() {
     } catch (error) {
       console.log(error);
 
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -107,6 +112,7 @@ export default function useClima() {
   return {
     clima,
     fetchClima,
-    datosvaciosClima
+    datosvaciosClima,
+    loading
   }
 }
