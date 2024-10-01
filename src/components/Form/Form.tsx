@@ -5,7 +5,7 @@ import styles from "./Form.module.css"
 import Alert from "../Alert/Alert";
 
 type FetchlimaProps = {
-  fetchClima: () => void
+  fetchClima: (search: SearchType) => Promise<void>
 }
 export default function Form({ fetchClima }: FetchlimaProps) {
   const [search, setSearch] = useState<SearchType>({
@@ -29,7 +29,7 @@ export default function Form({ fetchClima }: FetchlimaProps) {
       setAlert('Todos los campos son obligatorios')
 
     }
-    fetchClima()
+    fetchClima(search)
   }
   return (
     <form
