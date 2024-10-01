@@ -62,7 +62,7 @@ export default function useClima() {
     setClima(initialState)
     try {
       const appId = import.meta.env.VITE_API_KEY
-      const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${search.ciudad},${search.pais}&appid=${appId}`
+      const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${search.ciudad},${search.pais}&appid=${appId}`
 
 
       const { data } = await axios(geoUrl)
