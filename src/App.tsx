@@ -1,9 +1,10 @@
 import styles from './App.module.css'
+import ClimaDetalle from './components/ClimaDetalle/ClimaDetalle'
 import Form from './components/Form/Form'
 import useClima from './hooks/useClima'
 function App() {
 
-  const { fetchClima } = useClima()
+  const { fetchClima, clima } = useClima()
   return (
     <>
       <h1 className={styles.title}>Buscador de Clima</h1>
@@ -11,7 +12,9 @@ function App() {
         <Form
           fetchClima={fetchClima}
         />
-        <p>2</p>
+        <ClimaDetalle
+          clima={clima}
+        />
       </div>
     </>
   )
